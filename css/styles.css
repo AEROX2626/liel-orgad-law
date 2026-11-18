@@ -1777,6 +1777,12 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .drawer-body::-webkit-scrollbar,
+  .Drawer-sheet::-webkit-scrollbar {
+    display: none;
   }
 
   .drawer-section-label {
