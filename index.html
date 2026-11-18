@@ -20,6 +20,83 @@
   <div id="scroll-progress"></div>
 
   <!-- ========================================================================
+       MOBILE NAVIGATION DRAWER (Strictly follows modern-web-guidance `navigation-drawer`)
+       ======================================================================== -->
+  <dialog class="Drawer" id="drawer" aria-label="תפריט ניווט ראשי">
+    <div class="Drawer-scroller">
+      <nav class="Drawer-sheet" aria-label="ניווט מובייל">
+        <div class="drawer-header">
+          <div class="brand-logo">
+            <img
+              src="https://lielorgad.com/brand/liel-orgad-mark.svg"
+              alt=""
+              class="brand-mark"
+              width="54"
+              height="34"
+            >
+            <div class="brand-text">
+              <span class="brand-name">ליאל אורגד</span>
+              <span class="brand-role">עורכת דין | משרד עורכי דין</span>
+            </div>
+          </div>
+
+          <button
+            id="drawer-close"
+            type="button"
+            class="icon-btn"
+            aria-label="סגירת תפריט"
+            autofocus
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="drawer-body">
+          <div class="drawer-section-label">ניווט בעמוד</div>
+          <ul class="drawer-nav-list">
+            <li><a href="#top" class="drawer-link" data-drawer-close>ראשי</a></li>
+            <li><a href="#practice-areas" class="drawer-link" data-drawer-close>תחומי התמחות וליווי</a></li>
+            <li><a href="#contract-xray" class="drawer-link" data-drawer-close>רנטגן להסכם מכר</a></li>
+            <li><a href="#what-i-do" class="drawer-link" data-drawer-close>מה אני עושה בשבילכם</a></li>
+            <li><a href="#reviews" class="drawer-link" data-drawer-close>מה לקוחות כותבים (5.0 ★)</a></li>
+            <li><a href="#about" class="drawer-link" data-drawer-close>אודות עו״ד ליאל אורגד</a></li>
+            <li><a href="#process" class="drawer-link" data-drawer-close>כך עובדים יחד</a></li>
+            <li><a href="#faq" class="drawer-link" data-drawer-close>שאלות נפוצות</a></li>
+            <li><a href="#contact" class="drawer-link" data-drawer-close>תיאום שיחה ויצירת קשר</a></li>
+          </ul>
+
+          <div class="drawer-section-label" style="margin-block-start: 1.5rem;">עמודי שירות מפורטים</div>
+          <ul class="drawer-sub-list">
+            <li><a href="https://lielorgad.com/real-estate" class="drawer-sublink">מקרקעין: קנייה ומכירה <span>←</span></a></li>
+            <li><a href="https://lielorgad.com/first-home" class="drawer-sublink">ליווי ברכישת דירה ראשונה <span>←</span></a></li>
+            <li><a href="https://lielorgad.com/sell-and-buy" class="drawer-sublink">מוכרים וקונים דירה במקביל <span>←</span></a></li>
+            <li><a href="https://lielorgad.com/prenuptial-agreements" class="drawer-sublink">הסכמי ממון <span>←</span></a></li>
+            <li><a href="https://lielorgad.com/enduring-power-of-attorney" class="drawer-sublink">ייפוי כוח מתמשך <span>←</span></a></li>
+            <li><a href="https://lielorgad.com/wills" class="drawer-sublink">צוואות <span>←</span></a></li>
+          </ul>
+        </div>
+
+        <div class="drawer-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="inline-size: 100%;"
+            id="drawer-consult-btn"
+          >
+            מתייעצים לפני שמתחייבים
+          </button>
+          <div class="drawer-quick-contacts">
+            <a href="tel:+972508899844" class="drawer-contact-pill">📞 050-8899844</a>
+            <a href="https://wa.me/972508899844" target="_blank" rel="noopener noreferrer" class="drawer-contact-pill">💬 וואטסאפ</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </dialog>
+
+  <!-- ========================================================================
        HEADER & NAVIGATION
        ======================================================================== -->
   <header class="site-header">
@@ -82,11 +159,26 @@
 
         <button
           type="button"
-          class="btn btn-primary btn-sm"
+          class="btn btn-primary btn-sm header-cta-desktop"
           command="show-modal"
           commandfor="consult-dialog"
         >
           יצירת קשר
+        </button>
+
+        <button
+          id="drawer-open"
+          type="button"
+          class="icon-btn mobile-menu-trigger"
+          aria-label="תפריט ניווט"
+          aria-expanded="false"
+          aria-controls="drawer"
+        >
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+            <line x1="4" y1="7" x2="20" y2="7"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="17" x2="14" y2="17"/>
+          </svg>
         </button>
       </div>
     </div>

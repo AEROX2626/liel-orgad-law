@@ -75,6 +75,7 @@ const GOOGLE_REVIEWS = [
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initHeaderScroll();
+  initMobileDrawer();
   initScrollProgressFallback();
   initViewTimelineFallback();
   initBlueprintCanvas();
@@ -86,6 +87,101 @@ document.addEventListener('DOMContentLoaded', () => {
   initDialogControls();
   initContactForms();
 });
+
+// 0. Mobile Navigation Drawer (Strictly follows modern-web-guidance `navigation-drawer`)
+function initMobileDrawer() {
+  const drawer = document.getElementById('drawer');
+  const openBtn = document.getElementById('drawer-open');
+  if (!drawer || !openBtn) return;
+
+  const scroller = drawer.querySelector('.Drawer-scroller');
+  const sheet = drawer.querySelector('.Drawer-sheet');
+  const closeBtn = document.getElementById('drawer-close');
+  const drawerConsultBtn = document.getElementById('drawer-consult-btn');
+
+  if (!scroller || !sheet || !closeBtn) return;
+
+  let pendingConsultOpen = false;
+
+  async function openDrawer() {
+    drawer.showModal();
+
+    if (!CSS.supports('scroll-initial-target', 'nearest')) {
+      scroller.scrollTo({ left: scroller.offsetWidth, behavior: 'instant' });
+      await new Promise((r) =>
+        requestAnimationFrame(() => requestAnimationFrame(r))
+      );
+    }
+
+    scroller.scrollTo({ left: 0, behavior: 'auto' });
+  }
+
+  function closeDrawer() {
+    scroller.scrollTo({ left: scroller.offsetWidth, behavior: 'auto' });
+  }
+
+  function onDrawerOpened() {
+    openBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  function onDrawerClosed() {
+    if (!drawer.open) return;
+    drawer.close();
+    openBtn.setAttribute('aria-expanded', 'false');
+
+    if (pendingConsultOpen) {
+      pendingConsultOpen = false;
+      const consultDialog = document.getElementById('consult-dialog');
+      if (consultDialog) consultDialog.showModal();
+    }
+  }
+
+  const visibleThreshold = 1 / window.innerWidth;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const entry = entries.at(-1);
+      if (entry.intersectionRatio < visibleThreshold) onDrawerClosed();
+      if (entry.intersectionRatio === 1) onDrawerOpened();
+    },
+    { root: drawer, threshold: [visibleThreshold, 1] }
+  );
+  observer.observe(sheet);
+
+  if (!CSS.supports('animation-timeline: scroll()')) {
+    scroller.addEventListener('scroll', () => {
+      const ratio = 1 - scroller.scrollLeft / sheet.offsetWidth;
+      drawer.style.setProperty('--drawer-backdrop', String(Math.max(0, Math.min(1, ratio))));
+    }, { passive: true });
+  }
+
+  openBtn.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+
+  drawer.addEventListener('click', (event) => {
+    if (!sheet.contains(event.target)) closeDrawer();
+  });
+
+  drawer.addEventListener('cancel', (event) => {
+    if (event.cancelable) {
+      event.preventDefault();
+      closeDrawer();
+    }
+  });
+
+  drawer.querySelectorAll('[data-drawer-close]').forEach((link) => {
+    link.addEventListener('click', () => {
+      closeDrawer();
+    });
+  });
+
+  if (drawerConsultBtn) {
+    drawerConsultBtn.addEventListener('click', () => {
+      pendingConsultOpen = true;
+      closeDrawer();
+    });
+  }
+}
 
 // 1. Theme Toggle (Light Editorial / Dark Midnight Sapphire)
 function initThemeToggle() {
